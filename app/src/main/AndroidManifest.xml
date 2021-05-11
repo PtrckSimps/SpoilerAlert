@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpoilerAlert">
-        <activity android:name=".InputItemActivity"></activity>
+        <activity android:name=".ItemDetailsActivity"></activity>
+        <activity android:name=".InputItemActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
