@@ -9,4 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="start">#00D2B8</color>
     <color name="end">#8EF7BE</color>
+    <color name="SPgreen">#00D2B8</color>
+    <color name="grey1">#E6E6E6</color>
+    <color name="grey2">#767676</color>
+    <color name="text">#3B3B3B</color>
+    <color name="stop">#D8006B</color>
+    <color name="ready">#FEC776</color>
+    <color name="go">#9BDF70</color>
 </resources>
