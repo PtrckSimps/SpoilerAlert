@@ -31,17 +31,21 @@ public class InputItemActivity extends AppCompatActivity {
         expiryDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(InputItemActivity.this, android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth, expiryDateListener, year, month, day);
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                initDatePicker();
             }
         });
+    }
+
+    private void initDatePicker(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(InputItemActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth, expiryDateListener, year, month, day);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
 
         expiryDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
