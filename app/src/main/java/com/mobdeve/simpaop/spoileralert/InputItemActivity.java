@@ -10,16 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class InputItemActivity extends AppCompatActivity {
 
     private static final String TAG = "InputItemActivity";
 
     private TextView expiryDateInput;
+    private EditText itemNameEt;
+    private EditText itemCategoryEt;
     private DatePickerDialog.OnDateSetListener expiryDateListener;
+    private ItemAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,8 @@ public class InputItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_input_item);
 
         this.expiryDateInput = findViewById(R.id.expiryDateInput);
+        this.itemNameEt = findViewById(R.id.itemNameEt);
+        this.itemCategoryEt = findViewById(R.id.itemCategoryEt);
 
         expiryDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +42,8 @@ public class InputItemActivity extends AppCompatActivity {
                 initDatePicker();
             }
         });
+
+        //adapter = new ItemAdapter();
     }
 
     private void initDatePicker(){
@@ -57,4 +67,12 @@ public class InputItemActivity extends AppCompatActivity {
             }
         };
     }
+    /*
+    public void addItem(View view){
+        Random rand = new Random();
+        //(4) Items can still be added on the RecyclerView by talking to the adapter
+        adapter.addItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(), expiryDateInput.getText().toString());
+        finish();
+    }
+    */
 }
