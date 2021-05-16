@@ -33,20 +33,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>{
         holder.setItemName(itemArrayList.get(position).getItemName());
         holder.setItemCategory(itemArrayList.get(position).getItemCategory());
         holder.setExpiry(itemArrayList.get(position).getItemExpDate());
-        holder.setDaysLeft(itemArrayList.get(position).getDaysLeft());
-        holder.setimage(itemArrayList.get(position).getItemImage());
+        holder.setQuantity(itemArrayList.get(position).getQuantity());
+        holder.setDaysLeft(itemArrayList.get(position).getItemExpDate());
     }
 
     @Override
     public int getItemCount() {
-        return itemArrayList.size();
+        return 0;
     }
 
-    public void addItem(String itemName, String itemCategory, String expiry){
-        itemArrayList.add(new Item(
-                itemName, itemCategory,
-                expiry,
-                14, R.drawable.ic_launcher_background));
-        notifyItemInserted(itemArrayList.size()-1);
-    }
 }

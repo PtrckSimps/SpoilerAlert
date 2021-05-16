@@ -5,15 +5,17 @@ public class Item {
     private String itemName;
     private String itemCategory;
     private String itemExpDate;
-    private int itemImage;
-    private int daysLeft;
+    private int quantity;
+    private byte[] itemImage;
+    private byte[] proof;
 
-    public Item(String itemName, String itemCategory, String itemExpDate, int daysLeft, int itemImage) {
+    public Item(String itemName, String itemCategory, int quantity, String itemExpDate, byte[] itemImage, byte[] proof) {
         this.itemName = itemName;
         this.itemCategory = itemCategory;
+        this.quantity = quantity;
         this.itemExpDate = itemExpDate;
         this.itemImage = itemImage;
-        this.daysLeft = daysLeft;
+        this.proof = proof;
     }
 
     public String getItemName() {
@@ -28,11 +30,15 @@ public class Item {
         return itemExpDate;
     }
 
-    public int getItemImage() {
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public byte[] getItemImage() {
         return itemImage;
     }
 
-    public int getDaysLeft() {
-        return daysLeft;
+    public byte[] getProof() {
+        return proof;
     }
 }
