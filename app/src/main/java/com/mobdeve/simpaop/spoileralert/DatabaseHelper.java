@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        //SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         Toast.makeText(context, "constructor called", Toast.LENGTH_SHORT).show();
     }
 
@@ -54,16 +54,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertItem(String name, String category, String expiry, int quantity){
+    public boolean insertItem(String name, String category, int quantity, String expiry, byte[] proof, byte[] itemimage){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ITEMNAME, name);
         contentValues.put(KEY_CATEGORY, category);
-        contentValues.put(KEY_EXPDATE, expiry);
         contentValues.put(KEY_QUANTITY, quantity);
+        contentValues.put(KEY_EXPDATE, expiry);
+        contentValues.put(KEY_PROOF, proof);
+        contentValues.put(KEY_IMAGE, itemimage);
         long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
         return result != -1;
     }
 
+    public Cursor getItems(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
+        Cursor cursor= sqLiteDatabase.rawQuery("select * from "+TABLE_NAME,null);
+        return cursor;
+    }
 }

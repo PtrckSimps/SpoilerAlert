@@ -1,5 +1,6 @@
 package com.mobdeve.simpaop.spoileralert;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,9 +50,9 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setDaysLeft(String expiry) {
-        String currentDate = new SimpleDateFormat("M/dd/yyyy", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
 
-        SimpleDateFormat stf =  new SimpleDateFormat("M/dd/yyyy");
+        SimpleDateFormat stf =  new SimpleDateFormat("MM/dd/yyyy");
 
         Date date1 = null;
         try {
@@ -70,7 +71,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         daysLeftTv.setText(String.valueOf(days));
     }
 
-    public void setimage(int image){
-        itemImage.setImageResource(image);
+    public void setimage(Bitmap image){
+        itemImage.setImageBitmap(image);
     }
 }

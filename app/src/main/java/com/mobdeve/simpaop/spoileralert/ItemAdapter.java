@@ -35,11 +35,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>{
         holder.setExpiry(itemArrayList.get(position).getItemExpDate());
         holder.setQuantity(itemArrayList.get(position).getQuantity());
         holder.setDaysLeft(itemArrayList.get(position).getItemExpDate());
+        holder.setimage(itemArrayList.get(position).getItemImage());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return itemArrayList.size();
     }
 
 }

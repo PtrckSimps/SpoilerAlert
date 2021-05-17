@@ -1,15 +1,17 @@
 package com.mobdeve.simpaop.spoileralert;
 
+import android.graphics.Bitmap;
+
 public class Item {
 
     private String itemName;
     private String itemCategory;
     private String itemExpDate;
     private int quantity;
-    private byte[] itemImage;
-    private byte[] proof;
+    private Bitmap itemImage;
+    private Bitmap proof;
 
-    public Item(String itemName, String itemCategory, int quantity, String itemExpDate, byte[] itemImage, byte[] proof) {
+    public Item(String itemName, String itemCategory, int quantity, String itemExpDate, Bitmap itemImage, Bitmap proof) {
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.quantity = quantity;
@@ -34,11 +36,11 @@ public class Item {
         return quantity;
     }
 
-    public byte[] getItemImage() {
+    public Bitmap getItemImage() {
         return itemImage;
     }
 
-    public byte[] getProof() {
+    public Bitmap getProof() {
         return proof;
     }
 }

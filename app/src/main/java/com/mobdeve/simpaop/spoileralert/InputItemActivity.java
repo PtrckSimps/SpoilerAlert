@@ -10,7 +10,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -40,8 +43,6 @@ public class InputItemActivity extends AppCompatActivity {
     private Calendar calendar = Calendar.getInstance();
     private Button addPictureBtn, addExpiryBtn;
     private ImageView itemPictureIv, itemExpiryIv;
-    private DatePickerDialog.OnDateSetListener expiryDateListener;
-    private ItemAdapter adapter;
     DatabaseHelper databaseHelper;
 
 
@@ -108,7 +109,7 @@ public class InputItemActivity extends AppCompatActivity {
     }
 
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
 
         expiryDateInput.setText(sdf.format(calendar.getTime()));
@@ -127,13 +128,32 @@ public class InputItemActivity extends AppCompatActivity {
         }
     }
 
+
+    // convert from bitmap to byte array
+    public static byte[] getBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
     public void addItem(View view){
-        boolean isInserted = databaseHelper.insertItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(), expiryDateInput.getText().toString(), Integer.parseInt(quantityEt.getText().toString()));
+        //getting bitmpa image then converting to byte for sqlite storage
+        itemPictureIv.invalidate();
+        BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
+        Bitmap bitmap1 = drawable1.getBitmap();
+
+        itemExpiryIv.invalidate();
+        BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
+        Bitmap bitmap2 = drawable2.getBitmap();
+
+        byte[] image1 = getBytes(bitmap1);
+        byte[] image2 = getBytes(bitmap2);
+
+        boolean isInserted = databaseHelper.insertItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
         if(isInserted = true)
-            Toast.makeText(view.getContext(), "data inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), "Item added to the inventory", Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(view.getContext(), "not inserted", Toast.LENGTH_LONG).show();
-        //adapter.addItem();
+            Toast.makeText(view.getContext(), "Item not added", Toast.LENGTH_LONG).show();
         finish();
     }
 }

@@ -13,7 +13,8 @@
         android:layout_marginTop="84dp"
         android:background="@drawable/backgroun_card"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true" android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/textView2"
@@ -46,10 +47,12 @@
         <EditText
             android:id="@+id/itemNameEt"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
+            android:paddingStart="12dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
             android:inputType="textPersonName"
             android:textColor="@color/text"
@@ -67,6 +70,7 @@
             android:fontFamily="sans-serif"
             android:text="Item name"
             android:textColor="@color/text"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -79,18 +83,21 @@
             android:fontFamily="sans-serif"
             android:text="Item Category"
             android:textColor="@color/text"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemNameEt" />
 
         <EditText
             android:id="@+id/itemCategoryEt"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="200dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
             android:inputType="textPersonName"
+            android:paddingStart="12dp"
             android:textColor="@color/text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,17 +113,20 @@
             android:fontFamily="sans-serif"
             android:text="Quantity"
             android:textColor="@color/text"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemNameEt" />
 
         <EditText
             android:id="@+id/quantityEt"
             android:layout_width="124dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="48dp"
+            android:background="@drawable/custom_input"
             android:ems="10"
             android:inputType="number"
+            android:paddingStart="12dp"
             android:textColor="@color/text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +141,7 @@
             android:fontFamily="sans-serif"
             android:text="Expiry date"
             android:textColor="@color/text"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemCategoryEt" />
 
@@ -141,7 +152,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:text="Select date"
-            android:textColor="@color/text"
+            android:textColor="@color/grey2"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -155,6 +166,7 @@
             android:layout_marginBottom="48dp"
             android:background="@drawable/custom_button"
             android:fontFamily="sans-serif"
+            android:onClick="addItem"
             android:text="Add Item"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
