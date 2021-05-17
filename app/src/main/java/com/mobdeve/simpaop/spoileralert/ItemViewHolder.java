@@ -36,7 +36,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         this.daysLeftTv = itemView.findViewById(R.id.daysLeftTv);
         this.itemImage = itemView.findViewById(R.id.itemImage);
         this.quantityTv = itemView.findViewById(R.id.quantityTv);
-        this.viewBlock = itemView.findViewById(R.id.viewBlock);
+        this.viewBlock = itemView.findViewById(R.id.daysColorView);
         this.daysTv = itemView.findViewById(R.id.daysTv);
     }
 
@@ -76,6 +76,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         long diff = date2.getTime() - date1.getTime();
         long days = (diff / (1000*60*60*24));
         if(days <= 1){
+            daysTv.setText("day");
             daysTv.setTextColor(context.getColor(R.color.stop));
             viewBlock.setBackgroundResource(R.drawable.stop);
             daysLeftTv.setText(String.valueOf(days));
@@ -88,7 +89,6 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
             viewBlock.setBackgroundResource(R.drawable.go);
             daysLeftTv.setText(String.valueOf(days));
         }
-
     }
 
     public void setimage(Bitmap image){

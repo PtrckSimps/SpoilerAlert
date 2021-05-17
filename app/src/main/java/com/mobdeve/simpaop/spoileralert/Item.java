@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 public class Item {
 
+    //variables
+    private int id;
     private String itemName;
     private String itemCategory;
     private String itemExpDate;
@@ -11,13 +13,20 @@ public class Item {
     private Bitmap itemImage;
     private Bitmap proof;
 
-    public Item(String itemName, String itemCategory, int quantity, String itemExpDate, Bitmap proof, Bitmap itemImage) {
+    //Item Constructor
+    public Item(int id, String itemName, String itemCategory, int quantity, String itemExpDate, Bitmap proof, Bitmap itemImage) {
+        this.id = id;
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.quantity = quantity;
         this.itemExpDate = itemExpDate;
         this.itemImage = itemImage;
         this.proof = proof;
+    }
+
+    //getters
+    public int getId() {
+        return id;
     }
 
     public String getItemName() {

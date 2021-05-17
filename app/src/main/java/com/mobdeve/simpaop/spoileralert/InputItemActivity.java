@@ -36,6 +36,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     private static final String TAG = "InputItemActivity";
 
+    //views
     private TextView expiryDateInput;
     private EditText itemNameEt;
     private EditText itemCategoryEt;
@@ -43,6 +44,8 @@ public class InputItemActivity extends AppCompatActivity {
     private Calendar calendar = Calendar.getInstance();
     private Button addPictureBtn, addExpiryBtn;
     private ImageView itemPictureIv, itemExpiryIv;
+
+    //database
     DatabaseHelper databaseHelper;
 
 
@@ -51,8 +54,10 @@ public class InputItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_item);
 
+        //database
         databaseHelper = new DatabaseHelper(this);
 
+        //initialize views
         this.itemNameEt = findViewById(R.id.itemNameEt);
         this.itemCategoryEt = findViewById(R.id.itemCategoryEt);
         this.quantityEt = findViewById(R.id.quantityEt);
@@ -60,11 +65,9 @@ public class InputItemActivity extends AppCompatActivity {
         this.itemPictureIv = findViewById(R.id.itemPictureIv);
         this.itemExpiryIv = findViewById(R.id.itemExpiryIv);
         this.addExpiryBtn = findViewById(R.id.addExpiryProofBtn);
-
-
         this.expiryDateInput = findViewById(R.id.expiryDateInput);
 
-
+        //Date input with datepicker dialog
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -75,6 +78,8 @@ public class InputItemActivity extends AppCompatActivity {
                 updateLabel();
             }
         };
+
+        //textview listener for date inpt
         expiryDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +95,8 @@ public class InputItemActivity extends AppCompatActivity {
                     Manifest.permission.CAMERA
             }, 100);
         }
+
+        //add picture listener
         addPictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +105,7 @@ public class InputItemActivity extends AppCompatActivity {
             }
         });
 
+        //add picture listener
         addExpiryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +116,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //update date TextView with chosen date
     private void updateLabel() {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
@@ -136,6 +145,7 @@ public class InputItemActivity extends AppCompatActivity {
         return stream.toByteArray();
     }
 
+    //add item method, calls insertItem from database
     public void addItem(View view){
         //getting bitmap image then converting to byte for sqlite storage
         itemPictureIv.invalidate();

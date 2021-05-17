@@ -73,4 +73,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor= sqLiteDatabase.rawQuery("select * from "+TABLE_NAME,null);
         return cursor;
     }
+
+    public Cursor getSpecificItem(int rowID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from "+TABLE_NAME + " WHERE " + KEY_ROWID + "='" + rowID + "'", null);
+        return cursor;
+    }
+
+    //implement delete
+
+
+    //implement update/edit
 }

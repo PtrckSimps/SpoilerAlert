@@ -81,19 +81,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="28dp"
+            android:elevation="4dp"
             android:text="Days"
             android:textColor="@color/text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewBlock" />
+            app:layout_constraintEnd_toEndOf="@+id/daysColorView"
+            app:layout_constraintStart_toStartOf="@+id/daysColorView"
+            app:layout_constraintTop_toBottomOf="@+id/daysColorView" />
 
         <View
-            android:id="@+id/viewBlock"
+            android:id="@+id/daysColorView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/go"
+            android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,9 +108,10 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/viewBlock"
-            app:layout_constraintEnd_toEndOf="@+id/viewBlock"
-            app:layout_constraintTop_toTopOf="@+id/viewBlock" />
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/daysColorView"
+            app:layout_constraintEnd_toEndOf="@+id/daysColorView"
+            app:layout_constraintTop_toTopOf="@+id/daysColorView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

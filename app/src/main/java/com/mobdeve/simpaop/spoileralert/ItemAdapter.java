@@ -43,6 +43,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ItemDetailsActivity.class);
+                i.putExtra("ROWID", itemArrayList.get(position).getId());
+                /*
                 i.putExtra("NAME_KEY", itemArrayList.get(position).getItemName());
                 i.putExtra("CATEGORY_KEY", itemArrayList.get(position).getItemCategory());
                 i.putExtra("EXPIRY_KEY", itemArrayList.get(position).getItemExpDate());
@@ -55,6 +57,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>{
                 itemArrayList.get(position).getProof().compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byteArray = stream.toByteArray();
                 i.putExtra("PROOF_KEY", byteArray);
+                */
                 v.getContext().startActivity(i);
             }
         });

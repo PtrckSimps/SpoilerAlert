@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    //method to populate RecyclerView with db data
     public void getItems(){
         Cursor items = databaseHelper.getItems();
         if(items.getCount() == 0){
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 byte[] proof = items.getBlob(5);
                 byte[] itemimage = items.getBlob(6);
                 Log.d(TAG, itemname);
-                this.itemArrayList.add(new Item(itemname, category, quantity, expiry, getImage(proof), getImage(itemimage)));
+                this.itemArrayList.add(new Item(rowid, itemname, category, quantity, expiry, getImage(proof), getImage(itemimage)));
             }
         }
     }
