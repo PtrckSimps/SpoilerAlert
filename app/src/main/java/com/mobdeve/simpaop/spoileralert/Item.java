@@ -11,7 +11,7 @@ public class Item {
     private Bitmap itemImage;
     private Bitmap proof;
 
-    public Item(String itemName, String itemCategory, int quantity, String itemExpDate, Bitmap itemImage, Bitmap proof) {
+    public Item(String itemName, String itemCategory, int quantity, String itemExpDate, Bitmap proof, Bitmap itemImage) {
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.quantity = quantity;

@@ -137,7 +137,7 @@ public class InputItemActivity extends AppCompatActivity {
     }
 
     public void addItem(View view){
-        //getting bitmpa image then converting to byte for sqlite storage
+        //getting bitmap image then converting to byte for sqlite storage
         itemPictureIv.invalidate();
         BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
         Bitmap bitmap1 = drawable1.getBitmap();

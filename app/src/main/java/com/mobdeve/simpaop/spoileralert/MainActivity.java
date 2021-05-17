@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        itemArrayList.clear();
         getItems();
         adapter = new ItemAdapter(itemArrayList);
         recyclerView.setAdapter(adapter);
