@@ -1,5 +1,6 @@
 package com.mobdeve.simpaop.spoileralert;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,15 +16,19 @@ import java.util.Locale;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder {
 
+    private final Context context;
     private ImageView itemImage;
     private TextView itemNameTv;
     private TextView itemCategoryTv;
     private TextView expiryTv;
     private TextView daysLeftTv;
     private TextView quantityTv;
+    private View viewBlock;
+    private TextView daysTv;
 
     public ItemViewHolder(@NonNull View itemView){
         super(itemView);
+        context = itemView.getContext();
         this.itemNameTv = itemView.findViewById(R.id.itemNameTv);
         this.itemCategoryTv = itemView.findViewById(R.id.itemCategoryTv);
         this.expiryTv = itemView.findViewById(R.id.expiryTv);
@@ -31,6 +36,8 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         this.daysLeftTv = itemView.findViewById(R.id.daysLeftTv);
         this.itemImage = itemView.findViewById(R.id.itemImage);
         this.quantityTv = itemView.findViewById(R.id.quantityTv);
+        this.viewBlock = itemView.findViewById(R.id.viewBlock);
+        this.daysTv = itemView.findViewById(R.id.daysTv);
     }
 
     public void setItemName(String itemname){
@@ -42,7 +49,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setExpiry(String expiry){
-        expiryTv.setText(expiry);
+        expiryTv.setText("Expiring: " + expiry);
     }
 
     public void setQuantity(int quantity){
@@ -68,7 +75,20 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         }
         long diff = date2.getTime() - date1.getTime();
         long days = (diff / (1000*60*60*24));
-        daysLeftTv.setText(String.valueOf(days));
+        if(days <= 1){
+            daysTv.setTextColor(context.getColor(R.color.stop));
+            viewBlock.setBackgroundResource(R.drawable.stop);
+            daysLeftTv.setText(String.valueOf(days));
+        }else if(days > 1 && days <= 3){
+            daysTv.setTextColor(context.getColor(R.color.ready));
+            viewBlock.setBackgroundResource(R.drawable.ready);
+            daysLeftTv.setText(String.valueOf(days));
+        }else{
+            daysTv.setTextColor(context.getColor(R.color.go));
+            viewBlock.setBackgroundResource(R.drawable.go);
+            daysLeftTv.setText(String.valueOf(days));
+        }
+
     }
 
     public void setimage(Bitmap image){
