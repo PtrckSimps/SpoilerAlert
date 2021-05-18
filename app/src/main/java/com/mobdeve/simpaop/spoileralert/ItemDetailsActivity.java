@@ -26,6 +26,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     private ImageView itemImageIv, proofIv;
     private Button editBtn, deleteBtn;
     private View viewBlock2;
+    private int rowID;
 
     //database
     DatabaseHelper databaseHelper;
@@ -54,6 +55,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
         this.editBtn = findViewById(R.id.detailsEditBtn);
         this.deleteBtn = findViewById(R.id.detailsDeleteBtn);
 
+        Intent i = getIntent();
+        rowID = i.getIntExtra("ROWID", 0);
         //populate views by query using id from intent
         populateViews();
 
@@ -62,6 +65,11 @@ public class ItemDetailsActivity extends AppCompatActivity {
         this.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(ItemDetailsActivity.this, InputItemActivity.class);
+                i.putExtra("ROWID", rowID);
+                i.putExtra(InputItemActivity.ACTIVITY_FROM, 1);
+                startActivity(i);
+                finish();
 
             }
         });
@@ -70,11 +78,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
         this.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = getIntent();
-                databaseHelper.deleteItem(String.valueOf(i.getIntExtra("ROWID", 0)));
-                i = new Intent(ItemDetailsActivity.this, MainActivity.class);
-                finish();
-                startActivity(i);
+                int deleted = databaseHelper.deleteItem(String.valueOf(rowID));
+                if(deleted > 0){
+                    Intent i = new Intent(ItemDetailsActivity.this, MainActivity.class);
+                    finish();
+                    startActivity(i);
+                }
             }
         });
 
@@ -95,8 +104,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void populateViews(){
-        Intent i = getIntent();
-        Cursor cursor = databaseHelper.getSpecificItem(i.getIntExtra("ROWID", 0));
+        Cursor cursor = databaseHelper.getSpecificItem(rowID);
         if(cursor.moveToFirst()){
             String expiry = cursor.getString(4);
             this.nameTv.setText(cursor.getString(1));

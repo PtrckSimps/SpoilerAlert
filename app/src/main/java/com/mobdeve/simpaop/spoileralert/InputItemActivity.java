@@ -9,6 +9,7 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -34,20 +36,23 @@ import java.util.Random;
 
 public class InputItemActivity extends AppCompatActivity {
 
+    //
+    public static final String ACTIVITY_FROM = "ACTIVITY_FROM";
+
     private static final String TAG = "InputItemActivity";
 
     //views
-    private TextView expiryDateInput;
+    private TextView expiryDateInput, addItemHeaderTv;
     private EditText itemNameEt;
     private EditText itemCategoryEt;
     private EditText quantityEt;
     private Calendar calendar = Calendar.getInstance();
-    private Button addPictureBtn, addExpiryBtn;
+    private Button addPictureBtn, addExpiryBtn, updateItembtn;
     private ImageView itemPictureIv, itemExpiryIv;
 
+    private int activityFrom, rowID;
     //database
     DatabaseHelper databaseHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,8 @@ public class InputItemActivity extends AppCompatActivity {
         this.itemExpiryIv = findViewById(R.id.itemExpiryIv);
         this.addExpiryBtn = findViewById(R.id.addExpiryProofBtn);
         this.expiryDateInput = findViewById(R.id.expiryDateInput);
+        this.updateItembtn = findViewById(R.id.updateItembtn);
+        this.addItemHeaderTv = findViewById(R.id.addItemHeaderTv);
 
         //Date input with datepicker dialog
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -113,6 +120,23 @@ public class InputItemActivity extends AppCompatActivity {
                 startActivityForResult(intent, 200);
             }
         });
+
+        // 0 -> came from MainActivity; 1 -> came from CartActivity
+        Intent i = getIntent();
+
+        this.rowID = i.getIntExtra("ROWID", 0);
+        this.activityFrom = i.getIntExtra(ACTIVITY_FROM, 0);
+
+        if(activityFrom == 0) {
+            Log.d(TAG, "setViewContent: 0");
+
+
+        } else {
+            Log.d(TAG, "setViewContent: 1");
+            this.addItemHeaderTv.setText("Update Item");
+            this.updateItembtn.setVisibility(View.VISIBLE);
+            populateEditText();
+        }
 
     }
 
@@ -164,6 +188,45 @@ public class InputItemActivity extends AppCompatActivity {
             Toast.makeText(view.getContext(), "Item added to the inventory", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(view.getContext(), "Item not added", Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    public void populateEditText(){
+        Cursor cursor = databaseHelper.getSpecificItem(rowID);
+        if(cursor.moveToFirst()) {
+            String expiry = cursor.getString(4);
+            this.itemNameEt.setText(cursor.getString(1));
+            this.itemCategoryEt.setText(cursor.getString(2));
+            this.expiryDateInput.setText(expiry);
+            this.quantityEt.setText(String.valueOf(cursor.getInt(3)));
+            //Convert byte array into bitmap
+            byte[] byteArray1 = cursor.getBlob(6);
+            Bitmap bmp1 = BitmapFactory.decodeByteArray(byteArray1, 0, byteArray1.length);
+            this.itemPictureIv.setImageBitmap(bmp1);
+            byte[] byteArray2 = cursor.getBlob(5);
+            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
+            this.itemExpiryIv.setImageBitmap(bmp2);
+        }
+    }
+
+    public void updateItem(View view){
+        //getting bitmap image then converting to byte for sqlite storage
+        itemPictureIv.invalidate();
+        BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
+        Bitmap bitmap1 = drawable1.getBitmap();
+
+        itemExpiryIv.invalidate();
+        BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
+        Bitmap bitmap2 = drawable2.getBitmap();
+
+        byte[] image1 = getBytes(bitmap1);
+        byte[] image2 = getBytes(bitmap2);
+
+        boolean isUpdated = databaseHelper.updateItem(String.valueOf(rowID), itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
+        if(isUpdated = true)
+            Toast.makeText(view.getContext(), "Item details updated", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
         finish();
     }
 }

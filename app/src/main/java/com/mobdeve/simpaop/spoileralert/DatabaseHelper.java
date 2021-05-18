@@ -29,16 +29,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        //SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        Toast.makeText(context, "constructor called", Toast.LENGTH_SHORT).show();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        //Toast.makeText(context, "constructor called", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         try{
-            Toast.makeText(context, "oncreate called", Toast.LENGTH_SHORT).show();
             db.execSQL("create table " + TABLE_NAME +" (_id INTEGER PRIMARY KEY AUTOINCREMENT, itemname TEXT, category TEXT, quantity INTEGER, expiry TEXT, proof BLOB, image BLOB)");
-            Toast.makeText(context, "oncreate called", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "oncreate called", Toast.LENGTH_SHORT).show();
         }catch (SQLException e){
             Toast.makeText(context, ""+e , Toast.LENGTH_SHORT).show();
         }
@@ -88,4 +87,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //implement update/edit
+    public boolean updateItem(String rowID, String name, String category, int quantity, String expiry, byte[] proof, byte[] itemimage){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_ITEMNAME, name);
+        contentValues.put(KEY_CATEGORY, category);
+        contentValues.put(KEY_QUANTITY, quantity);
+        contentValues.put(KEY_EXPDATE, expiry);
+        contentValues.put(KEY_PROOF, proof);
+        contentValues.put(KEY_IMAGE, itemimage);
+        sqLiteDatabase.update(TABLE_NAME, contentValues, KEY_ROWID + " = ?", new String[] {rowID});
+        return true;
+    }
 }
