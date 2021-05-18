@@ -71,10 +71,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = getIntent();
-                databaseHelper.deleteItem(i.getIntExtra("ROWID", 0));
+                databaseHelper.deleteItem(String.valueOf(i.getIntExtra("ROWID", 0)));
                 i = new Intent(ItemDetailsActivity.this, MainActivity.class);
+                finish();
                 startActivity(i);
-
             }
         });
 
