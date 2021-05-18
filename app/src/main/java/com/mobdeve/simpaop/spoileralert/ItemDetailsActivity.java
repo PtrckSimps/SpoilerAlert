@@ -1,11 +1,13 @@
 package com.mobdeve.simpaop.spoileralert;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +30,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     //database
     DatabaseHelper databaseHelper;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
         this.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = getIntent();
+                databaseHelper.deleteItem(i.getIntExtra("ROWID", 0));
+                i = new Intent(ItemDetailsActivity.this, MainActivity.class);
+                startActivity(i);
 
             }
         });
@@ -86,6 +93,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
          */
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void populateViews(){
         Intent i = getIntent();
         Cursor cursor = databaseHelper.getSpecificItem(i.getIntExtra("ROWID", 0));

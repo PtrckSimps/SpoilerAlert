@@ -82,7 +82,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //implement delete
+    public Cursor deleteItem(int rowID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
+        Cursor cursor = sqLiteDatabase.rawQuery("delete from " + TABLE_NAME + " WHERE " + KEY_ROWID + "='" + rowID + "'", null);
+        return cursor;
+    }
 
     //implement update/edit
 }

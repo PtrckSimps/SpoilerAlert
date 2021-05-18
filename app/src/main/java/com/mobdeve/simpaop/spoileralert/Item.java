@@ -52,4 +52,5 @@ public class Item {
     public Bitmap getProof() {
         return proof;
     }
+
 }
