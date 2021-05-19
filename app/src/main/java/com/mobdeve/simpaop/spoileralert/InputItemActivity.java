@@ -1,12 +1,15 @@
 package com.mobdeve.simpaop.spoileralert;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,6 +31,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -47,10 +53,12 @@ public class InputItemActivity extends AppCompatActivity {
     private EditText itemCategoryEt;
     private EditText quantityEt;
     private Calendar calendar = Calendar.getInstance();
-    private Button addPictureBtn, addExpiryBtn, updateItembtn;
+    private Button updateItembtn;
     private ImageView itemPictureIv, itemExpiryIv;
+    private FloatingActionButton addPictureBtn, addExpiryBtn;
 
     private int activityFrom, rowID;
+    private int REQUEST_CAMERA=1, SELECT_FILE=0, REQUEST_CAMERA2=10, SELECT_FILE2=20;
     //database
     DatabaseHelper databaseHelper;
 
@@ -107,8 +115,12 @@ public class InputItemActivity extends AppCompatActivity {
         addPictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SelectImage(1);
+                /*
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 100);
+                */
+
             }
         });
 
@@ -116,8 +128,11 @@ public class InputItemActivity extends AppCompatActivity {
         addExpiryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SelectImage(2);
+                /*
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 200);
+                startActivityForResult(intent, 100);
+                */
             }
         });
 
@@ -148,16 +163,69 @@ public class InputItemActivity extends AppCompatActivity {
         expiryDateInput.setText(sdf.format(calendar.getTime()));
     }
 
+    private void SelectImage(int from){
+
+        final CharSequence[] items={"Camera","Gallery", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(InputItemActivity.this);
+        builder.setTitle("Add Image");
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if(from == 1){
+                        startActivityForResult(intent, REQUEST_CAMERA);
+                    }else{
+                        startActivityForResult(intent, REQUEST_CAMERA2);
+                    }
+
+                } else if (items[i].equals("Gallery")) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    if(from == 1){
+                        startActivityForResult(intent, SELECT_FILE);
+                    }else{
+                        startActivityForResult(intent, SELECT_FILE2);
+                    }
+
+                } else if (items[i].equals("Cancel")) {
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        builder.show();
+
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100) {
-            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
-            itemPictureIv.setImageBitmap(Bitmap.createScaledBitmap(captureImage, 240, 240, false));
-        }
-        else if (requestCode == 200) {
-            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
-            itemExpiryIv.setImageBitmap(Bitmap.createScaledBitmap(captureImage, 240, 240, false));
+    public  void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode,data);
+
+        if(resultCode== Activity.RESULT_OK){
+
+            if(requestCode==REQUEST_CAMERA){
+                Bundle bundle = data.getExtras();
+                final Bitmap bmp = (Bitmap) bundle.get("data");
+                itemPictureIv.setImageBitmap(bmp);
+
+            }else if(requestCode==SELECT_FILE){
+                Uri selectedImageUri = data.getData();
+                itemPictureIv.setImageURI(selectedImageUri);
+
+            }else if(requestCode==REQUEST_CAMERA2){
+                Bundle bundle = data.getExtras();
+                final Bitmap bmp = (Bitmap) bundle.get("data");
+                itemExpiryIv.setImageBitmap(bmp);
+
+            }else if(requestCode==SELECT_FILE2){
+                Uri selectedImageUri = data.getData();
+                itemExpiryIv.setImageURI(selectedImageUri);
+            }
+
         }
     }
 

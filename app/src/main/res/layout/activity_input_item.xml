@@ -12,9 +12,10 @@
         android:layout_height="match_parent"
         android:layout_marginTop="84dp"
         android:background="@drawable/backgroun_card"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:focusable="true" android:focusableInTouchMode="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/addItemHeaderTv"
@@ -51,10 +52,10 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
-            android:paddingStart="12dp"
             android:background="@drawable/custom_input"
             android:ems="10"
             android:inputType="textPersonName"
+            android:paddingStart="12dp"
             android:textColor="@color/text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,13 +67,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="Item name"
-            android:textColor="@color/text"
-            android:textSize="16sp"
+            android:textColor="@color/grey2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lineView1" />
+            app:layout_constraintTop_toBottomOf="@+id/itemPictureIv" />
 
         <TextView
             android:id="@+id/addCategHeader"
@@ -82,8 +82,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="Item Category"
-            android:textColor="@color/text"
-            android:textSize="16sp"
+            android:textColor="@color/grey2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemNameEt" />
 
@@ -108,21 +107,21 @@
             android:id="@+id/addQtyHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="122dp"
             android:fontFamily="sans-serif"
             android:text="Quantity"
-            android:textColor="@color/text"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/grey2"
+            app:layout_constraintStart_toEndOf="@+id/addCategHeader"
             app:layout_constraintTop_toBottomOf="@+id/itemNameEt" />
 
         <EditText
             android:id="@+id/quantityEt"
             android:layout_width="124dp"
             android:layout_height="40dp"
+            android:layout_marginStart="19dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="48dp"
+            android:layout_marginEnd="57dp"
             android:background="@drawable/custom_input"
             android:ems="10"
             android:inputType="number"
@@ -130,6 +129,7 @@
             android:textColor="@color/text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/itemCategoryEt"
             app:layout_constraintTop_toBottomOf="@+id/addQtyHeader" />
 
         <TextView
@@ -140,8 +140,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="Expiry date"
-            android:textColor="@color/text"
-            android:textSize="16sp"
+            android:textColor="@color/grey2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemCategoryEt" />
 
@@ -176,90 +175,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/addPictureBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/custom_button"
-            android:fontFamily="sans-serif"
-            android:text="Add Picture"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemPictureIv" />
-
-        <Button
-            android:id="@+id/addExpiryProofBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="56dp"
-            android:background="@drawable/custom_button"
-            android:fontFamily="sans-serif"
-            android:text="Add Expiry"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemExpiryIv" />
-
-        <TextView
-            android:id="@+id/monthTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/expiryDateInput"
-            app:layout_constraintTop_toBottomOf="@+id/addExpHeader" />
-
-        <TextView
-            android:id="@+id/dayTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/monthTv"
-            app:layout_constraintTop_toBottomOf="@+id/addExpHeader" />
-
-        <TextView
-            android:id="@+id/yearTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/dayTv"
-            app:layout_constraintTop_toBottomOf="@+id/addExpHeader" />
-
-        <ImageView
-            android:id="@+id/itemPictureIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/expiryDateInput"
-            tools:srcCompat="@tools:sample/avatars" />
-
         <ImageView
             android:id="@+id/itemExpiryIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="64dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/expiryDateInput"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/proofTv"
+            app:layout_constraintStart_toStartOf="@+id/proofTv"
+            app:layout_constraintTop_toBottomOf="@+id/proofTv"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <Button
             android:id="@+id/updateItembtn"
@@ -280,6 +204,54 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPictureBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="136dp"
+            android:clickable="true"
+            app:backgroundTint="@color/SPgreen"
+            app:fabCustomSize="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineView1"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <ImageView
+            android:id="@+id/itemPictureIv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineView1"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <TextView
+            android:id="@+id/proofTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:text="Proof of Expiry"
+            android:textColor="@color/grey2"
+            app:layout_constraintStart_toEndOf="@+id/addCategHeader"
+            app:layout_constraintTop_toBottomOf="@+id/quantityEt" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addExpiryProofBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="77dp"
+            android:layout_marginEnd="70dp"
+            android:clickable="true"
+            app:backgroundTint="@color/SPgreen"
+            app:fabCustomSize="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/proofTv"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

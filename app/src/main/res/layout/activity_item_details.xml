@@ -58,8 +58,9 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="36dp"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.122"
+            app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -133,22 +134,21 @@
             android:id="@+id/proofHeaderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="150dp"
             android:layout_marginTop="32dp"
             android:text="Proof of Expiry:"
             android:textColor="@color/grey2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailsExpiryTv" />
+            app:layout_constraintStart_toEndOf="@+id/categoryHeaderTv"
+            app:layout_constraintTop_toBottomOf="@+id/detailsQuantityTv" />
 
         <ImageView
             android:id="@+id/detailsProofIv"
             android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="36dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="244dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/proofHeaderTv"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toBottomOf="@+id/proofHeaderTv" />
 
         <View
             android:id="@+id/lineView2"
