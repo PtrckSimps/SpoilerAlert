@@ -13,8 +13,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private Button addItemBtn;
     private ArrayList<Item> itemArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
+
+    private SearchView itemSe;
 
     private ItemAdapter adapter;
     private RecyclerView.LayoutManager manager;
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
 
         this.addItemBtn = findViewById(R.id.addItemBtn);
+        this.itemSe = findViewById(R.id.itemSe);
 
         this.addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
+
+        //When text is added to search view
+        itemSe.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
     }
 
