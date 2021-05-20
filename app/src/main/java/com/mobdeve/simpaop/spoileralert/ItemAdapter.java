@@ -20,7 +20,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
 
     public ItemAdapter(ArrayList<Item> data){
         this.itemArrayList = data;
-        this.itemArrayListFull = data;
+        this.itemArrayListFull = new ArrayList<>(data);
     }
 
     @NonNull
@@ -93,7 +93,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         protected void publishResults(CharSequence constraint, FilterResults results) {
             itemArrayList.clear();
             itemArrayList.addAll((ArrayList) results.values);
-
+            notifyDataSetChanged();
         }
     };
 
