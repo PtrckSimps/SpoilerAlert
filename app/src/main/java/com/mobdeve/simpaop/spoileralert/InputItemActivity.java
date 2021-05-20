@@ -276,8 +276,6 @@ public class InputItemActivity extends AppCompatActivity {
             Bitmap bmp1 = BitmapFactory.decodeByteArray(byteArray1, 0, byteArray1.length);
             this.itemPictureIv.setImageBitmap(bmp1);
             byte[] byteArray2 = cursor.getBlob(5);
-            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
-            this.itemExpiryIv.setImageBitmap(bmp2);
         }
     }
 
@@ -298,7 +296,9 @@ public class InputItemActivity extends AppCompatActivity {
         if(isUpdated = true)
             Toast.makeText(view.getContext(), "Item details updated", Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), "Item details\n" +
+                    "            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);\n" +
+                    "            this.itemExpiryIv.setImageBitmap(bmp2); not updated", Toast.LENGTH_LONG).show();
         finish();
     }
 
@@ -307,6 +307,13 @@ public class InputItemActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putString("EXPIRY", expiryDateInput.getText().toString());
+        BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
+        Bitmap bitmap1 = drawable1.getBitmap();
+        outState.putByteArray("ITEM_IMAGE",getBytes(bitmap1));
+
+        BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
+        Bitmap bitmap2 = drawable2.getBitmap();
+        outState.putByteArray("EXPIRY_IMAGE",getBytes(bitmap2));
 
     }
 
@@ -315,6 +322,14 @@ public class InputItemActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         expiryDateInput.setText(savedInstanceState.getString("EXPIRY"));
+
+        byte[] byteArray1 = savedInstanceState.getByteArray("ITEM_IMAGE");
+        Bitmap bmp1 = BitmapFactory.decodeByteArray(byteArray1, 0, byteArray1.length);
+        this.itemPictureIv.setImageBitmap(bmp1);
+
+        byte[] byteArray2 = savedInstanceState.getByteArray("EXPIRY_IMAGE");
+        Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
+        this.itemExpiryIv.setImageBitmap(bmp2);
 
     }
 }
