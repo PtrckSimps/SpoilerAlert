@@ -20,7 +20,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
 
     public ItemAdapter(ArrayList<Item> data){
         this.itemArrayList = data;
-        itemArrayListFull = new ArrayList<Item>(data);
+        this.itemArrayListFull = data;
     }
 
     @NonNull
@@ -66,7 +66,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         @Override
         // constraint refers to newText on searchView
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Item> filteredList = new ArrayList<Item>();
+            ArrayList<Item> filteredList = new ArrayList<>();
             //Adds all items to the list since the search bar is empty
             if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(itemArrayListFull);
@@ -88,11 +88,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         }
 
         //Updates arraylist with results from filter
+        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             itemArrayList.clear();
             itemArrayList.addAll((ArrayList) results.values);
-            notifyDataSetChanged();
+
         }
     };
 

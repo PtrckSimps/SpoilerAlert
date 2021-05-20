@@ -94,7 +94,6 @@ public class InputItemActivity extends AppCompatActivity {
         if(activityFrom == 0) {
             Log.d(TAG, "setViewContent: 0");
 
-
         } else {
             Log.d(TAG, "setViewContent: 1");
             this.addItemHeaderTv.setText("Update Item");
@@ -276,6 +275,8 @@ public class InputItemActivity extends AppCompatActivity {
             Bitmap bmp1 = BitmapFactory.decodeByteArray(byteArray1, 0, byteArray1.length);
             this.itemPictureIv.setImageBitmap(bmp1);
             byte[] byteArray2 = cursor.getBlob(5);
+            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray1.length);
+            this.itemExpiryIv.setImageBitmap(bmp2);
         }
     }
 
@@ -296,9 +297,7 @@ public class InputItemActivity extends AppCompatActivity {
         if(isUpdated = true)
             Toast.makeText(view.getContext(), "Item details updated", Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(view.getContext(), "Item details\n" +
-                    "            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);\n" +
-                    "            this.itemExpiryIv.setImageBitmap(bmp2); not updated", Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
         finish();
     }
 

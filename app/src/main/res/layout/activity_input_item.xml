@@ -105,28 +105,26 @@
             android:id="@+id/addQtyHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="Quantity"
             android:textColor="@color/grey2"
-            app:layout_constraintStart_toEndOf="@+id/addCategHeader"
+            app:layout_constraintStart_toEndOf="@+id/itemCategoryEt"
             app:layout_constraintTop_toBottomOf="@+id/itemNameEt" />
 
         <EditText
             android:id="@+id/quantityEt"
             android:layout_width="124dp"
             android:layout_height="40dp"
-            android:layout_marginStart="19dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="57dp"
             android:background="@drawable/custom_input"
             android:ems="10"
             android:inputType="number"
             android:paddingStart="12dp"
             android:textColor="@color/text"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/itemCategoryEt"
             app:layout_constraintTop_toBottomOf="@+id/addQtyHeader" />
 
@@ -231,11 +229,11 @@
             android:id="@+id/proofTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Proof of Expiry"
             android:textColor="@color/grey2"
-            app:layout_constraintStart_toEndOf="@+id/addCategHeader"
+            app:layout_constraintStart_toEndOf="@+id/itemCategoryEt"
             app:layout_constraintTop_toBottomOf="@+id/quantityEt" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
