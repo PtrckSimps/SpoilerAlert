@@ -44,11 +44,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //datebase
         databaseHelper = new DatabaseHelper(this);
 
+        //initialize views
         this.addItemBtn = findViewById(R.id.addItemBtn);
         this.itemSe = findViewById(R.id.itemSe);
+        this.recyclerView = findViewById(R.id.recyclerView);
 
+        manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+
+        setListeners();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        itemArrayList.clear();
+        getItems();
+        adapter = new ItemAdapter(itemArrayList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    public void setListeners(){
         this.addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,10 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        recyclerView = findViewById(R.id.recyclerView);
-        manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
 
         //When text is added to search view
         itemSe.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -75,16 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        itemArrayList.clear();
-        getItems();
-        adapter = new ItemAdapter(itemArrayList);
-        recyclerView.setAdapter(adapter);
     }
 
     //method to populate RecyclerView with db data

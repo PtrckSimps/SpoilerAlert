@@ -1,7 +1,6 @@
 package com.mobdeve.simpaop.spoileralert;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements Filterable {
@@ -22,7 +20,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
 
     public ItemAdapter(ArrayList<Item> data){
         this.itemArrayList = data;
-        itemArrayListFull = new ArrayList<>(data);
+        itemArrayListFull = new ArrayList<Item>(data);
     }
 
     @NonNull
@@ -49,20 +47,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ItemDetailsActivity.class);
                 i.putExtra("ROWID", itemArrayList.get(position).getId());
-                /*
-                i.putExtra("NAME_KEY", itemArrayList.get(position).getItemName());
-                i.putExtra("CATEGORY_KEY", itemArrayList.get(position).getItemCategory());
-                i.putExtra("EXPIRY_KEY", itemArrayList.get(position).getItemExpDate());
-                i.putExtra("QUANTITY_KEY", itemArrayList.get(position).getQuantity());
-                //convert bitmap into byte array
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                itemArrayList.get(position).getItemImage().compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte [] byteArray = stream.toByteArray();
-                i.putExtra("IMAGE_KEY", byteArray);
-                itemArrayList.get(position).getProof().compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byteArray = stream.toByteArray();
-                i.putExtra("PROOF_KEY", byteArray);
-                */
                 v.getContext().startActivity(i);
             }
         });
@@ -82,7 +66,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         @Override
         // constraint refers to newText on searchView
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Item> filteredList = new ArrayList<>();
+            ArrayList<Item> filteredList = new ArrayList<Item>();
             //Adds all items to the list since the search bar is empty
             if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(itemArrayListFull);

@@ -1,5 +1,6 @@
 package com.mobdeve.simpaop.spoileralert;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,6 +83,28 @@ public class InputItemActivity extends AppCompatActivity {
         this.updateItembtn = findViewById(R.id.updateItembtn);
         this.addItemHeaderTv = findViewById(R.id.addItemHeaderTv);
 
+        setListeners();
+
+        // 0 -> came from MainActivity; 1 -> came from CartActivity
+        Intent i = getIntent();
+
+        this.rowID = i.getIntExtra("ROWID", 0);
+        this.activityFrom = i.getIntExtra(ACTIVITY_FROM, 0);
+
+        if(activityFrom == 0) {
+            Log.d(TAG, "setViewContent: 0");
+
+
+        } else {
+            Log.d(TAG, "setViewContent: 1");
+            this.addItemHeaderTv.setText("Update Item");
+            this.updateItembtn.setVisibility(View.VISIBLE);
+            populateEditText();
+        }
+
+    }
+
+    public void setListeners(){
         //Date input with datepicker dialog
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -135,24 +158,6 @@ public class InputItemActivity extends AppCompatActivity {
                 */
             }
         });
-
-        // 0 -> came from MainActivity; 1 -> came from CartActivity
-        Intent i = getIntent();
-
-        this.rowID = i.getIntExtra("ROWID", 0);
-        this.activityFrom = i.getIntExtra(ACTIVITY_FROM, 0);
-
-        if(activityFrom == 0) {
-            Log.d(TAG, "setViewContent: 0");
-
-
-        } else {
-            Log.d(TAG, "setViewContent: 1");
-            this.addItemHeaderTv.setText("Update Item");
-            this.updateItembtn.setVisibility(View.VISIBLE);
-            populateEditText();
-        }
-
     }
 
     //update date TextView with chosen date
@@ -229,7 +234,6 @@ public class InputItemActivity extends AppCompatActivity {
         }
     }
 
-
     // convert from bitmap to byte array
     public static byte[] getBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -296,5 +300,21 @@ public class InputItemActivity extends AppCompatActivity {
         else
             Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("EXPIRY", expiryDateInput.getText().toString());
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        expiryDateInput.setText(savedInstanceState.getString("EXPIRY"));
+
     }
 }

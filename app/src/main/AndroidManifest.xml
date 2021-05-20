@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SpoilerAlert">
+        android:theme="@style/Theme.SpoilerAlert"
+        >
         <activity android:name=".ItemDetailsActivity"></activity>
         <activity android:name=".InputItemActivity" />
         <activity android:name=".MainActivity">

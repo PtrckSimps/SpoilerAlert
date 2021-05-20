@@ -57,10 +57,14 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         rowID = i.getIntExtra("ROWID", 0);
+
         //populate views by query using id from intent
         populateViews();
 
+        setListeners();
+    }
 
+    public void setListeners(){
         //create edit button onclick
         this.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,20 +90,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
-        /*
-        this.nameTv.setText(i.getStringExtra("NAME_KEY"));
-        this.categoryTv.setText(i.getStringExtra("CATEGORY_KEY"));
-        this.expiryTv.setText("Expiring: " + i.getStringExtra("EXPIRY_KEY"));
-        this.quantityTv.setText("Qty: " + String.valueOf(i.getIntExtra("QUANTITY_KEY", 1)));
-        //Convert byte array into bitmap
-        byte [] byteArray1 = getIntent().getByteArrayExtra("IMAGE_KEY");
-        Bitmap bmp1 = BitmapFactory.decodeByteArray(byteArray1, 0 ,byteArray1.length);
-        this.itemImageIv.setImageBitmap(bmp1);
-        byte [] byteArray2 = getIntent().getByteArrayExtra("PROOF_KEY");
-        Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0 ,byteArray2.length);
-        this.proofIv.setImageBitmap(bmp2);
-         */
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -137,11 +127,19 @@ public class ItemDetailsActivity extends AppCompatActivity {
             }
             long diff = date2.getTime() - date1.getTime();
             long days = (diff / (1000*60*60*24));
+
             if(days <= 1){
-                daysTv2.setText("day");
+                if(days == 1){
+                    daysLeftTv2.setText(String.valueOf(days));
+                    daysTv2.setText("day");
+                }
+                else{
+                    daysTv2.setText("Expired");
+                    daysLeftTv2.setText(String.valueOf(0));
+                }
                 daysTv2.setTextColor(this.getColor(R.color.stop));
                 viewBlock2.setBackgroundResource(R.drawable.stop);
-                daysLeftTv2.setText(String.valueOf(days));
+
             }else if(days > 1 && days <= 3){
                 daysTv2.setTextColor(this.getColor(R.color.ready));
                 viewBlock2.setBackgroundResource(R.drawable.ready);

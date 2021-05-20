@@ -11,7 +11,7 @@
         android:id="@+id/itemDetailsHeaderTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:text="Item Details"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -23,7 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/backgroun_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,26 +32,26 @@
             android:id="@+id/detailsExpiryTv"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="120dp"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="Item Expiry"
             android:textColor="@color/text"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/quantityHeaderTv"
             app:layout_constraintTop_toBottomOf="@+id/expiryHeaderTv" />
 
         <TextView
             android:id="@+id/detailsQuantityTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="Item Quantity"
             android:textColor="@color/text"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/categoryHeaderTv"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quantityHeaderTv" />
 
         <ImageView
@@ -61,7 +61,7 @@
             android:layout_marginTop="36dp"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.118"
+            app:layout_constraintHorizontal_bias="0.057"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -81,27 +81,28 @@
 
         <TextView
             android:id="@+id/detailsNameTv"
-            android:layout_width="wrap_content"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="36dp"
             android:fontFamily="sans-serif"
             android:inputType="textMultiLine"
             android:text="Item Name"
+            android:textAlignment="viewStart"
             android:textColor="@color/grey2"
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/daysColorView2"
-            app:layout_constraintHorizontal_bias="0.324"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/detailsImageIv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/detailsDeleteBtn"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="40dp"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="88dp"
+            android:layout_marginEnd="36dp"
             android:background="@drawable/custom_delete"
             android:fontFamily="sans-serif"
             android:text="DELETE"
@@ -109,48 +110,45 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/detailsEditBtn"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="12dp"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="36dp"
             android:background="@drawable/custom_button"
             android:fontFamily="sans-serif"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:text="EDIT DETAILS"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/detailsDeleteBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/proofHeaderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="20dp"
             android:text="Proof of Expiry:"
             android:textColor="@color/grey2"
-            app:layout_constraintStart_toEndOf="@+id/categoryHeaderTv"
-            app:layout_constraintTop_toBottomOf="@+id/detailsQuantityTv" />
+            app:layout_constraintStart_toEndOf="@+id/expiryHeaderTv"
+            app:layout_constraintTop_toBottomOf="@+id/lineView2" />
 
         <ImageView
             android:id="@+id/detailsProofIv"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="244dp"
+            android:layout_height="95dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/expiryHeaderTv"
             app:layout_constraintTop_toBottomOf="@+id/proofHeaderTv" />
 
         <View
@@ -158,31 +156,28 @@
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="36dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/layoutgradient"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toEndOf="@+id/detailsProofIv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/detailsImageIv" />
 
         <View
             android:id="@+id/daysColorView2"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="52dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginTop="36dp"
             android:background="@drawable/go"
             android:elevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/lineView2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/daysLeftTv2"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="1"
             android:elevation="4dp"
+            android:text="1"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -210,7 +205,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="Category"
             android:textColor="@color/grey2"
             app:layout_constraintStart_toStartOf="parent"
@@ -220,21 +215,21 @@
             android:id="@+id/quantityHeaderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="16dp"
             android:text="Quantity"
-            app:layout_constraintStart_toEndOf="@+id/categoryHeaderTv"
-            app:layout_constraintTop_toBottomOf="@+id/lineView2" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCategoryTv" />
 
         <TextView
             android:id="@+id/expiryHeaderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="20dp"
             android:text="Expiry date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailsCategoryTv" />
+            app:layout_constraintStart_toEndOf="@+id/categoryHeaderTv"
+            app:layout_constraintTop_toBottomOf="@+id/lineView2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

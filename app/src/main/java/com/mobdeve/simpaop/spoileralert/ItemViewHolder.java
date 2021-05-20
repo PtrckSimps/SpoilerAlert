@@ -49,7 +49,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setExpiry(String expiry){
-        expiryTv.setText("Expiring: " + expiry);
+        expiryTv.setText("Expiration: " + expiry);
     }
 
     public void setQuantity(int quantity){
@@ -76,10 +76,17 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         long diff = date2.getTime() - date1.getTime();
         long days = (diff / (1000*60*60*24));
         if(days <= 1){
-            daysTv.setText("day");
+            if(days == 1){
+                daysLeftTv.setText(String.valueOf(days));
+                daysTv.setText("day");
+            }
+            else{
+                daysTv.setText("Expired");
+                daysLeftTv.setText(String.valueOf(0));
+            }
             daysTv.setTextColor(context.getColor(R.color.stop));
             viewBlock.setBackgroundResource(R.drawable.stop);
-            daysLeftTv.setText(String.valueOf(days));
+
         }else if(days > 1 && days <= 3){
             daysTv.setTextColor(context.getColor(R.color.ready));
             viewBlock.setBackgroundResource(R.drawable.ready);
