@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SpoilerAlert</string>
+    <string-array name="sorting">
+        <item>Alphabetically</item>
+        <item>Ascending Expiration</item>
+        <item>Descending Expiration</item>
+    </string-array>
 </resources>

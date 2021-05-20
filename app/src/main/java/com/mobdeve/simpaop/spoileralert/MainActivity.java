@@ -17,8 +17,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addItemBtn;
     private ArrayList<Item> itemArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private Spinner spinnerSort;
 
     private SearchView itemSe;
 
@@ -51,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
         this.addItemBtn = findViewById(R.id.addItemBtn);
         this.itemSe = findViewById(R.id.itemSe);
         this.recyclerView = findViewById(R.id.recyclerView);
+        this.spinnerSort =  findViewById(R.id.spinnerSort);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sorting, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerSort.setAdapter(adapter);
+
 
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
