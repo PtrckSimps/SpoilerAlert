@@ -2,6 +2,12 @@ package com.mobdeve.simpaop.spoileralert;
 
 import android.graphics.Bitmap;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
+
 public class Item {
 
     //variables
@@ -53,4 +59,47 @@ public class Item {
         return proof;
     }
 
+    public int getDays(){
+        String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+
+        SimpleDateFormat stf =  new SimpleDateFormat("MM/dd/yyyy");
+
+        Date date1 = null;
+        try {
+            date1 = stf.parse(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date date2 = null;
+        try {
+            date2 = stf.parse(itemExpDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long diff = date2.getTime() - date1.getTime();
+        long days = (diff / (1000*60*60*24));
+        Math.abs(days);
+        return (int) days;
+    }
+
+    public static Comparator<Item> ItemNameComparator = new Comparator<Item>() {
+        @Override
+        public int compare(Item o1, Item o2) {
+            return o1.getItemName().compareToIgnoreCase(o2.getItemName());
+        }
+    };
+
+    public static Comparator<Item> ItemADaysComparator = new Comparator<Item>() {
+        @Override
+        public int compare(Item o1, Item o2) {
+            return o1.getDays() - o2.getDays();
+        }
+    };
+
+    public static Comparator<Item> ItemDDaysComparator = new Comparator<Item>() {
+        @Override
+        public int compare(Item o1, Item o2) {
+            return o2.getDays() - o1.getDays();
+        }
+    };
 }

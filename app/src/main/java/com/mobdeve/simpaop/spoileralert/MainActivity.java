@@ -17,12 +17,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,18 +58,11 @@ public class MainActivity extends AppCompatActivity {
         this.itemSe = findViewById(R.id.itemSe);
         this.recyclerView = findViewById(R.id.recyclerView);
         this.spinnerSort =  findViewById(R.id.spinnerSort);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sorting, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinnerSort.setAdapter(adapter);
-
 
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
-
         setListeners();
+        setUpSort();
     }
 
     @Override
@@ -103,6 +99,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void setUpSort(){
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sorting, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerSort.setAdapter(spinnerAdapter);
+
+        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    Log.d(TAG, "onItemSelected: NONE");
+                }else if(position == 1){
+                    Log.d(TAG, "onItemSelected: NAME");
+                    Collections.sort(itemArrayList, Item.ItemNameComparator);
+                    adapter.notifyDataSetChanged();
+                }else if (position == 2){
+                    Log.d(TAG, "onItemSelected: ASC");
+                    Collections.sort(itemArrayList, Item.ItemADaysComparator);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    Log.d(TAG, "onItemSelected: DESC");
+                    Collections.sort(itemArrayList, Item.ItemDDaysComparator);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
     //method to populate RecyclerView with db data
     public void getItems(){
         Cursor items = databaseHelper.getItems();
@@ -118,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 String expiry = items.getString(4);
                 byte[] proof = items.getBlob(5);
                 byte[] itemimage = items.getBlob(6);
-                Log.d(TAG, itemname);
                 this.itemArrayList.add(new Item(rowid, itemname, category, quantity, expiry, getImage(proof), getImage(itemimage)));
             }
         }
