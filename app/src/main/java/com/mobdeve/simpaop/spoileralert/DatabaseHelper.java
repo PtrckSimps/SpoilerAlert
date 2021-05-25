@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertItem(String name, String category, int quantity, String expiry, byte[] proof, byte[] itemimage){
+    public long insertItem(String name, String category, int quantity, String expiry, byte[] proof, byte[] itemimage){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ITEMNAME, name);
@@ -63,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_PROOF, proof);
         contentValues.put(KEY_IMAGE, itemimage);
         long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
-        return result != -1;
+        return result;
     }
 
     public Cursor getItems(){
@@ -98,5 +98,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_IMAGE, itemimage);
         sqLiteDatabase.update(TABLE_NAME, contentValues, KEY_ROWID + " = ?", new String[] {rowID});
         return true;
+    }
+
+    public Cursor getLastInsertedID(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.rawQuery("SELECT last_insert_rowid()", null);
     }
 }

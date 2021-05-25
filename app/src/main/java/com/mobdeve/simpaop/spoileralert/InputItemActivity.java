@@ -9,7 +9,11 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -43,9 +47,9 @@ import java.util.Random;
 
 public class InputItemActivity extends AppCompatActivity {
 
-    //
-    public static final String ACTIVITY_FROM = "ACTIVITY_FROM";
 
+    public static final String ACTIVITY_FROM = "ACTIVITY_FROM";
+    private static final String CHANNEL_ID = "SPOILERALERT";
     private static final String TAG = "InputItemActivity";
 
     //views
@@ -53,13 +57,15 @@ public class InputItemActivity extends AppCompatActivity {
     private EditText itemNameEt;
     private EditText itemCategoryEt;
     private EditText quantityEt;
-    private Calendar calendar = Calendar.getInstance();
     private Button updateItembtn;
     private ImageView itemPictureIv, itemExpiryIv;
     private FloatingActionButton addPictureBtn, addExpiryBtn;
 
     private int activityFrom, rowID;
     private int REQUEST_CAMERA=1, SELECT_FILE=0, REQUEST_CAMERA2=10, SELECT_FILE2=20;
+    private Calendar calendar = Calendar.getInstance();
+    private Calendar calendar2 = Calendar.getInstance();
+
     //database
     DatabaseHelper databaseHelper;
 
@@ -112,6 +118,26 @@ public class InputItemActivity extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.HOUR_OF_DAY, 00);
+                calendar.set(Calendar.MINUTE, 00);
+                calendar.set(Calendar.SECOND, 00);
+                calendar2.set(Calendar.YEAR, year);
+                calendar2.set(Calendar.MONTH, monthOfYear);
+                calendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar2.set(Calendar.HOUR_OF_DAY, 00);
+                calendar2.set(Calendar.MINUTE, 00);
+                calendar.set(Calendar.SECOND, 00);
+                calendar2.add(calendar2.DATE, -3);
+                Log.d(TAG, "og "+ calendar.getTime());
+                Log.d(TAG, "decremented "+ calendar2.getTime());
+
+                // Test if the times are in the past, if they are add one day
+                Calendar now = Calendar.getInstance();
+                if(now.after(calendar))
+                    calendar.add(Calendar.HOUR_OF_DAY, 24);
+                if(now.after(calendar2))
+                    calendar2.add(Calendar.HOUR_OF_DAY, 24);
+
                 updateLabel();
             }
         };
@@ -254,11 +280,15 @@ public class InputItemActivity extends AppCompatActivity {
         byte[] image1 = getBytes(bitmap1);
         byte[] image2 = getBytes(bitmap2);
 
-        boolean isInserted = databaseHelper.insertItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
-        if(isInserted = true)
+        long isInserted = databaseHelper.insertItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
+        Log.d(TAG, "ID: " + isInserted);
+
+        if(isInserted != -1)
             Toast.makeText(view.getContext(), "Item added to the inventory", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(view.getContext(), "Item not added", Toast.LENGTH_LONG).show();
+
+        setupNotification(isInserted, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
         finish();
     }
 
@@ -330,5 +360,46 @@ public class InputItemActivity extends AppCompatActivity {
         Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
         this.itemExpiryIv.setImageBitmap(bmp2);
 
+    }
+
+    private void setupNotification(long ID, String itemName, String expiryDate){
+        createNotificationChannel();
+
+        // Create two different PendingIntents, they MUST have different requestCodes
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("ID", (int) ID);
+        intent.putExtra("NAME", itemName);
+        intent.putExtra("DATE", expiryDate);
+        PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), (int) ID, intent, 0);
+        PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), (int) ID * -1 , intent, 0);
+
+        // Start both alarms, set to repeat once every day
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+        }
+
+    }
+
+    private void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Spoiler Alert", importance);
+            channel.setDescription("Fram App channel");
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+            Log.d(TAG, "createNotificationChannel: ");
+        }
     }
 }
