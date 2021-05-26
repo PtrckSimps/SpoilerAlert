@@ -18,7 +18,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         String name = intent.getStringExtra("NAME");
         String date = intent.getStringExtra("DATE");
         //notification attributes
-        builder.setSmallIcon(R.drawable.ic_launcher_background);
+        builder.setSmallIcon(R.drawable.sa_icon);
         builder.setContentTitle("SpoilerAlert");
         builder.setContentText(name + " is expiring in " + date);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
