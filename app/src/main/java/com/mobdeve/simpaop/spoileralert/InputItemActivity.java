@@ -140,6 +140,7 @@ public class InputItemActivity extends AppCompatActivity {
 
                 updateLabel();
             }
+
         };
 
         //textview listener for date inpt
@@ -147,9 +148,11 @@ public class InputItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new DatePickerDialog(InputItemActivity.this, date, calendar
+                DatePickerDialog dpg = new DatePickerDialog(InputItemActivity.this, date, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+                        calendar.get(Calendar.DAY_OF_MONTH));
+                dpg.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dpg.show();
             }
         });
 
@@ -328,6 +331,11 @@ public class InputItemActivity extends AppCompatActivity {
             Toast.makeText(view.getContext(), "Item details updated", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
+
+
+        updateNotification (rowID, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
+
+
         finish();
     }
 
@@ -363,6 +371,7 @@ public class InputItemActivity extends AppCompatActivity {
     }
 
     private void setupNotification(long ID, String itemName, String expiryDate){
+
         createNotificationChannel();
 
         // Create two different PendingIntents, they MUST have different requestCodes
@@ -387,7 +396,37 @@ public class InputItemActivity extends AppCompatActivity {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
         }
+    }
 
+    private void updateNotification(int ID, String itemName, String expiryDate){
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), rowID, intent, 0);
+        PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), rowID * -1 , intent, 0);
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.cancel(threeDaysBefore);
+        am.cancel(onTheDay);
+        createNotificationChannel();
+        intent.putExtra("ID", ID);
+        intent.putExtra("NAME", itemName);
+        intent.putExtra("DATE", expiryDate);
+
+        threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(),  ID, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        onTheDay = PendingIntent.getBroadcast(getApplicationContext(),  ID * -1 , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Start both alarms, set to repeat once every day
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+        }
     }
 
     private void createNotificationChannel(){

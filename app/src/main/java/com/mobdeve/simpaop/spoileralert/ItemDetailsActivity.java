@@ -3,6 +3,8 @@ package com.mobdeve.simpaop.spoileralert;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -85,6 +87,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 int deleted = databaseHelper.deleteItem(String.valueOf(rowID));
                 if(deleted > 0){
                     Intent i = new Intent(ItemDetailsActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ItemDetailsActivity.this, NotificationReceiver.class);
+                    PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), rowID, intent, 0);
+                    PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), rowID * -1 , intent, 0);
+                    AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    am.cancel(threeDaysBefore);
+                    am.cancel(onTheDay);
                     finish();
                     startActivity(i);
                 }
