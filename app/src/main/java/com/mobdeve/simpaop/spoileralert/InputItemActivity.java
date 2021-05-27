@@ -126,18 +126,20 @@ public class InputItemActivity extends AppCompatActivity {
                 calendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 calendar2.set(Calendar.HOUR_OF_DAY, 00);
                 calendar2.set(Calendar.MINUTE, 00);
-                calendar.set(Calendar.SECOND, 00);
+                calendar2.set(Calendar.SECOND, 00);
                 calendar2.add(calendar2.DATE, -3);
+
                 Log.d(TAG, "og "+ calendar.getTime());
                 Log.d(TAG, "decremented "+ calendar2.getTime());
 
+                /*
                 // Test if the times are in the past, if they are add one day
                 Calendar now = Calendar.getInstance();
                 if(now.after(calendar))
                     calendar.add(Calendar.HOUR_OF_DAY, 24);
                 if(now.after(calendar2))
                     calendar2.add(Calendar.HOUR_OF_DAY, 24);
-
+                */
                 updateLabel();
             }
 
@@ -271,28 +273,34 @@ public class InputItemActivity extends AppCompatActivity {
 
     //add item method, calls insertItem from database
     public void addItem(View view){
-        //getting bitmap image then converting to byte for sqlite storage
-        itemPictureIv.invalidate();
-        BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
-        Bitmap bitmap1 = drawable1.getBitmap();
 
-        itemExpiryIv.invalidate();
-        BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
-        Bitmap bitmap2 = drawable2.getBitmap();
+        if(itemNameEt.getText().toString().equals("") || itemCategoryEt.getText().toString().equals("") || quantityEt.getText().toString().equals("") || Integer.parseInt(quantityEt.getText().toString()) < 0 || expiryDateInput.getText().toString().equals("Select date")){
+            showErrorMessage();
+        }else{
+            //getting bitmap image then converting to byte for sqlite storage
+            itemPictureIv.invalidate();
+            BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
+            Bitmap bitmap1 = drawable1.getBitmap();
 
-        byte[] image1 = getBytes(bitmap1);
-        byte[] image2 = getBytes(bitmap2);
+            itemExpiryIv.invalidate();
+            BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
+            Bitmap bitmap2 = drawable2.getBitmap();
 
-        long isInserted = databaseHelper.insertItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
-        Log.d(TAG, "ID: " + isInserted);
+            byte[] image1 = getBytes(bitmap1);
+            byte[] image2 = getBytes(bitmap2);
 
-        if(isInserted != -1)
-            Toast.makeText(view.getContext(), "Item added to the inventory", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(view.getContext(), "Item not added", Toast.LENGTH_LONG).show();
+            long isInserted = databaseHelper.insertItem(itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
+            Log.d(TAG, "ID: " + isInserted);
 
-        setupNotification(isInserted, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
-        finish();
+            if(isInserted != -1)
+                Toast.makeText(view.getContext(), "Item added to the inventory", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(view.getContext(), "Item not added", Toast.LENGTH_LONG).show();
+
+            setupNotification(isInserted, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
+            finish();
+        }
+
     }
 
     public void populateEditText(){
@@ -314,29 +322,39 @@ public class InputItemActivity extends AppCompatActivity {
     }
 
     public void updateItem(View view){
-        //getting bitmap image then converting to byte for sqlite storage
-        itemPictureIv.invalidate();
-        BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
-        Bitmap bitmap1 = drawable1.getBitmap();
+        if(itemNameEt.getText().toString().equals("") || itemCategoryEt.getText().toString().equals("") || quantityEt.getText().toString().equals("") || Integer.parseInt(quantityEt.getText().toString()) < 0 || expiryDateInput.getText().toString().equals("Select date")){
+            showErrorMessage();
+        }else{
+            //getting bitmap image then converting to byte for sqlite storage
+            itemPictureIv.invalidate();
+            BitmapDrawable drawable1 = (BitmapDrawable)itemPictureIv.getDrawable();
+            Bitmap bitmap1 = drawable1.getBitmap();
 
-        itemExpiryIv.invalidate();
-        BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
-        Bitmap bitmap2 = drawable2.getBitmap();
+            itemExpiryIv.invalidate();
+            BitmapDrawable drawable2 = (BitmapDrawable)itemExpiryIv.getDrawable();
+            Bitmap bitmap2 = drawable2.getBitmap();
 
-        byte[] image1 = getBytes(bitmap1);
-        byte[] image2 = getBytes(bitmap2);
+            byte[] image1 = getBytes(bitmap1);
+            byte[] image2 = getBytes(bitmap2);
 
-        boolean isUpdated = databaseHelper.updateItem(String.valueOf(rowID), itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
-        if(isUpdated = true)
-            Toast.makeText(view.getContext(), "Item details updated", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
+            boolean isUpdated = databaseHelper.updateItem(String.valueOf(rowID), itemNameEt.getText().toString(), itemCategoryEt.getText().toString(),  Integer.parseInt(quantityEt.getText().toString()), expiryDateInput.getText().toString(), image2, image1);
+            if(isUpdated = true)
+                Toast.makeText(view.getContext(), "Item details updated", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
 
+            updateNotification (rowID, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
 
-        updateNotification (rowID, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
+            finish();
+        }
+    }
 
-
-        finish();
+    private void showErrorMessage() {
+        Toast t = Toast.makeText(
+                InputItemActivity.this,
+                "Please ensure that all input information are correct.",
+                Toast.LENGTH_LONG);
+        t.show();
     }
 
     @Override
@@ -374,28 +392,53 @@ public class InputItemActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
+        Calendar current = Calendar.getInstance();
+        int diff = calendar2.compareTo(current);
+
         // Create two different PendingIntents, they MUST have different requestCodes
         Intent intent = new Intent(this, NotificationReceiver.class);
         intent.putExtra("ID", (int) ID);
         intent.putExtra("NAME", itemName);
         intent.putExtra("DATE", expiryDate);
-        PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), (int) ID, intent, 0);
-        PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), (int) ID * -1 , intent, 0);
 
-        // Start both alarms, set to repeat once every day
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if(diff != -1){
 
+            Log.d(TAG, "setupNotification: two notifs");
+            PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), (int) ID, intent, 0);
+            PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), (int) ID * -1 , intent, 0);
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            // Start both alarms, set to repeat once every day
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= 23) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            } else if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            }
+        }else{
+            Log.d(TAG, "setupNotification: one notif");
+            PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), (int) ID * -1 , intent, 0);
+
+            // Start both alarms, set to repeat once every day
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= 23) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+
+            } else if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+
+            }
         }
+
     }
 
     private void updateNotification(int ID, String itemName, String expiryDate){
@@ -410,23 +453,43 @@ public class InputItemActivity extends AppCompatActivity {
         intent.putExtra("NAME", itemName);
         intent.putExtra("DATE", expiryDate);
 
-        threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(),  ID, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-        onTheDay = PendingIntent.getBroadcast(getApplicationContext(),  ID * -1 , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar current = Calendar.getInstance();
+        int diff = calendar2.compareTo(current);
 
-        // Start both alarms, set to repeat once every day
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if(diff != -1){
+            threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(),  ID, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            onTheDay = PendingIntent.getBroadcast(getApplicationContext(),  ID * -1 , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // Start both alarms, set to repeat once every day
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            if (Build.VERSION.SDK_INT >= 23) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            } else if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), threeDaysBefore);
+            }
+        }else{
+            onTheDay = PendingIntent.getBroadcast(getApplicationContext(),  ID * -1 , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // Start both alarms, set to repeat once every day
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+
+            if (Build.VERSION.SDK_INT >= 23) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            } else if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), onTheDay);
+            }
         }
+
     }
 
     private void createNotificationChannel(){

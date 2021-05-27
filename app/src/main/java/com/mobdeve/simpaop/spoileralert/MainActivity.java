@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public void getItems(){
         Cursor items = databaseHelper.getItems();
         if(items.getCount() == 0){
-            Log.d(TAG, "error");
+            Log.d(TAG, "no items");
             return;
         }else{
             while(items.moveToNext()){
