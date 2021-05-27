@@ -316,7 +316,7 @@ public class InputItemActivity extends AppCompatActivity {
             Bitmap bmp1 = BitmapFactory.decodeByteArray(byteArray1, 0, byteArray1.length);
             this.itemPictureIv.setImageBitmap(bmp1);
             byte[] byteArray2 = cursor.getBlob(5);
-            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray1.length);
+            Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
             this.itemExpiryIv.setImageBitmap(bmp2);
         }
     }
