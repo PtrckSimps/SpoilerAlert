@@ -149,10 +149,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 viewBlock2.setBackgroundResource(R.drawable.stop);
 
             }else if(days > 1 && days <= 3){
+                daysTv2.setText("days");
                 daysTv2.setTextColor(this.getColor(R.color.ready));
                 viewBlock2.setBackgroundResource(R.drawable.ready);
                 daysLeftTv2.setText(String.valueOf(days));
             }else{
+                daysTv2.setText("days");
                 daysTv2.setTextColor(this.getColor(R.color.go));
                 viewBlock2.setBackgroundResource(R.drawable.go);
                 daysLeftTv2.setText(String.valueOf(days));

@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         setListeners();
-        setUpSort();
     }
 
     @Override
@@ -72,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         getItems();
         adapter = new ItemAdapter(itemArrayList);
         recyclerView.setAdapter(adapter);
+        setUpSort();
     }
 
     public void setListeners(){
@@ -111,16 +111,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0){
-                    Log.d(TAG, "onItemSelected: NONE");
+                    Log.d(TAG, "onItemSelected: DEFAULT");
+                    Collections.sort(itemArrayList, Item.ItemADaysComparator);
+                    adapter.notifyDataSetChanged();
                 }else if(position == 1){
                     Log.d(TAG, "onItemSelected: NAME");
                     Collections.sort(itemArrayList, Item.ItemNameComparator);
                     adapter.notifyDataSetChanged();
                 }else if (position == 2){
-                    Log.d(TAG, "onItemSelected: ASC");
-                    Collections.sort(itemArrayList, Item.ItemADaysComparator);
-                    adapter.notifyDataSetChanged();
-                }else{
                     Log.d(TAG, "onItemSelected: DESC");
                     Collections.sort(itemArrayList, Item.ItemDDaysComparator);
                     adapter.notifyDataSetChanged();

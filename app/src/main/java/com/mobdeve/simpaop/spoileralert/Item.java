@@ -78,7 +78,6 @@ public class Item {
         }
         long diff = date2.getTime() - date1.getTime();
         long days = (diff / (1000*60*60*24));
-        Math.abs(days);
         return (int) days;
     }
 
@@ -98,7 +97,7 @@ public class Item {
 
     public static Comparator<Item> ItemDDaysComparator = new Comparator<Item>() {
         @Override
-        public int compare(Item o1, Item o2) {
+        public int compare(Item o2, Item o1) {
             return o2.getDays() - o1.getDays();
         }
     };

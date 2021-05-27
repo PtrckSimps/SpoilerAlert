@@ -40,8 +40,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         holder.setItemCategory(itemArrayList.get(position).getItemCategory());
         holder.setExpiry(itemArrayList.get(position).getItemExpDate());
         holder.setQuantity(itemArrayList.get(position).getQuantity());
-        holder.setDaysLeft(itemArrayList.get(position).getItemExpDate());
         holder.setimage(itemArrayList.get(position).getItemImage());
+        holder.setDaysLeft(itemArrayList.get(position).getDays());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

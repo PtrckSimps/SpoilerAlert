@@ -56,25 +56,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         quantityTv.setText("Qty: " + String.valueOf(quantity));
     }
 
-    public void setDaysLeft(String expiry) {
-        String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
-
-        SimpleDateFormat stf =  new SimpleDateFormat("MM/dd/yyyy");
-
-        Date date1 = null;
-        try {
-            date1 = stf.parse(currentDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date date2 = null;
-        try {
-            date2 = stf.parse(expiry);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long diff = date2.getTime() - date1.getTime();
-        long days = (diff / (1000*60*60*24));
+    public void setDaysLeft(int days) {
         if(days <= 1){
             if(days == 1){
                 daysLeftTv.setText(String.valueOf(days));
@@ -88,10 +70,12 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
             viewBlock.setBackgroundResource(R.drawable.stop);
 
         }else if(days > 1 && days <= 3){
+            daysTv.setText("days");
             daysTv.setTextColor(context.getColor(R.color.ready));
             viewBlock.setBackgroundResource(R.drawable.ready);
             daysLeftTv.setText(String.valueOf(days));
         }else{
+            daysTv.setText("days");
             daysTv.setTextColor(context.getColor(R.color.go));
             viewBlock.setBackgroundResource(R.drawable.go);
             daysLeftTv.setText(String.valueOf(days));
