@@ -58,7 +58,7 @@ public class InputItemActivity extends AppCompatActivity {
     private EditText itemCategoryEt;
     private EditText quantityEt;
     private Button updateItembtn;
-    private ImageView itemPictureIv, itemExpiryIv;
+    private ImageView itemPictureIv,  itemExpiryIv;
     private FloatingActionButton addPictureBtn, addExpiryBtn;
 
     private int activityFrom, rowID;
