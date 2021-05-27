@@ -3,6 +3,8 @@ package com.mobdeve.simpaop.spoileralert;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -17,9 +19,12 @@ public class NotificationReceiver extends BroadcastReceiver {
         int ID = intent.getIntExtra("ID", 0);
         String name = intent.getStringExtra("NAME");
         String date = intent.getStringExtra("DATE");
+        byte[] bytes = intent.getByteArrayExtra("IMAGE");
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         //notification attributes
         builder.setSmallIcon(R.drawable.sa_icon);
         builder.setContentTitle("SpoilerAlert");
+        builder.setLargeIcon(bmp);
         builder.setContentText(name + " is expiring in " + date);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 

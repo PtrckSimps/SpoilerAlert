@@ -297,7 +297,7 @@ public class InputItemActivity extends AppCompatActivity {
             else
                 Toast.makeText(view.getContext(), "Item not added", Toast.LENGTH_LONG).show();
 
-            setupNotification(isInserted, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
+            setupNotification(isInserted, itemNameEt.getText().toString(), expiryDateInput.getText().toString(), image1);
             finish();
         }
 
@@ -343,7 +343,7 @@ public class InputItemActivity extends AppCompatActivity {
             else
                 Toast.makeText(view.getContext(), "Item details not updated", Toast.LENGTH_LONG).show();
 
-            updateNotification (rowID, itemNameEt.getText().toString(), expiryDateInput.getText().toString());
+            updateNotification (rowID, itemNameEt.getText().toString(), expiryDateInput.getText().toString(), image1);
 
             finish();
         }
@@ -388,7 +388,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
-    private void setupNotification(long ID, String itemName, String expiryDate){
+    private void setupNotification(long ID, String itemName, String expiryDate, byte[] image){
 
         createNotificationChannel();
 
@@ -400,6 +400,7 @@ public class InputItemActivity extends AppCompatActivity {
         intent.putExtra("ID", (int) ID);
         intent.putExtra("NAME", itemName);
         intent.putExtra("DATE", expiryDate);
+        intent.putExtra("IMAGE", image);
 
         if(diff != -1){
 
@@ -441,7 +442,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
-    private void updateNotification(int ID, String itemName, String expiryDate){
+    private void updateNotification(int ID, String itemName, String expiryDate, byte[] image){
         Intent intent = new Intent(this, NotificationReceiver.class);
         PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), rowID, intent, 0);
         PendingIntent onTheDay = PendingIntent.getBroadcast(getApplicationContext(), rowID * -1 , intent, 0);
@@ -452,6 +453,7 @@ public class InputItemActivity extends AppCompatActivity {
         intent.putExtra("ID", ID);
         intent.putExtra("NAME", itemName);
         intent.putExtra("DATE", expiryDate);
+        intent.putExtra("IMAGE", image);
 
         Calendar current = Calendar.getInstance();
         int diff = calendar2.compareTo(current);
