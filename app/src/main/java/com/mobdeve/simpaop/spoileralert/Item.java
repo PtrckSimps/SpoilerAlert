@@ -81,6 +81,7 @@ public class Item {
         return (int) days;
     }
 
+    //sorting alphabetically
     public static Comparator<Item> ItemNameComparator = new Comparator<Item>() {
         @Override
         public int compare(Item o1, Item o2) {
@@ -88,6 +89,7 @@ public class Item {
         }
     };
 
+    //sorting expiry days left ascending
     public static Comparator<Item> ItemADaysComparator = new Comparator<Item>() {
         @Override
         public int compare(Item o1, Item o2) {
@@ -95,6 +97,7 @@ public class Item {
         }
     };
 
+    //sorting expiry days left descending
     public static Comparator<Item> ItemDDaysComparator = new Comparator<Item>() {
         @Override
         public int compare(Item o1, Item o2) {

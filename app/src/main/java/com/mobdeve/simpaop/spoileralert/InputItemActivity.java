@@ -109,6 +109,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //set listeners for buttons and datepicker
     public void setListeners(){
         //Date input with datepicker dialog
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -210,6 +211,7 @@ public class InputItemActivity extends AppCompatActivity {
         expiryDateInput.setText(sdf.format(calendar.getTime()));
     }
 
+    //image select through camera or gallery input
     private void SelectImage(int from){
 
         final CharSequence[] items={"Camera","Gallery", "Cancel"};
@@ -315,6 +317,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //repopoulate the input fields for editing
     public void populateEditText(){
         Cursor cursor = databaseHelper.getSpecificItem(rowID);
         if(cursor.moveToFirst()) {
@@ -351,6 +354,7 @@ public class InputItemActivity extends AppCompatActivity {
         }
     }
 
+    //updates the item to the database
     public void updateItem(View view){
         if(itemNameEt.getText().toString().equals("") || itemCategoryEt.getText().toString().equals("") || quantityEt.getText().toString().equals("") || Integer.parseInt(quantityEt.getText().toString()) < 0 || expiryDateInput.getText().toString().equals("Select date")){
             showErrorMessage();
@@ -387,6 +391,7 @@ public class InputItemActivity extends AppCompatActivity {
         t.show();
     }
 
+    //used to save data when screen is rotated
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -402,6 +407,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //used to restore saved data when screen is rotated
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -418,6 +424,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //setup notifcation of added item
     private void setupNotification(long ID, String itemName, String expiryDate, byte[] image){
 
         createNotificationChannel();
@@ -432,6 +439,7 @@ public class InputItemActivity extends AppCompatActivity {
         intent.putExtra("DATE", expiryDate);
         intent.putExtra("IMAGE", image);
 
+        //set two notification 3 days before and the day itself or just set one notification when expiry date is already within 3 days
         if(diff != -1){
 
             Log.d(TAG, "setupNotification: two notifs");
@@ -472,6 +480,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //updates the notifcation when user edits item data
     private void updateNotification(int ID, String itemName, String expiryDate, byte[] image){
         Intent intent = new Intent(this, NotificationReceiver.class);
         PendingIntent threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(), rowID, intent, 0);
@@ -488,6 +497,7 @@ public class InputItemActivity extends AppCompatActivity {
         Calendar current = Calendar.getInstance();
         int diff = calendar2.compareTo(current);
 
+        //set two notification 3 days before and the day itself or just set one notification when expiry date is already within 3 days
         if(diff != -1){
             threeDaysBefore = PendingIntent.getBroadcast(getApplicationContext(),  ID, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
             onTheDay = PendingIntent.getBroadcast(getApplicationContext(),  ID * -1 , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
@@ -524,6 +534,7 @@ public class InputItemActivity extends AppCompatActivity {
 
     }
 
+    //notification channel
     private void createNotificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;

@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    //sorting items in recycler view - default sort is by days left before expiry
     public void setUpSort(){
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sorting, android.R.layout.simple_spinner_item);

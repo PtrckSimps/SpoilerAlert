@@ -100,6 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //gets the row id of the last inserted item
     public Cursor getLastInsertedID(){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         return sqLiteDatabase.rawQuery("SELECT last_insert_rowid()", null);

@@ -63,6 +63,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         //populate views by query using id from intent
         populateViews();
 
+        //setlisteners for buttons edit and delete
         setListeners();
     }
 
@@ -100,6 +101,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         });
     }
 
+    //popoulates views with data from database
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void populateViews(){
         Cursor cursor = databaseHelper.getSpecificItem(rowID);
