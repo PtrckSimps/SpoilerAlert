@@ -97,7 +97,7 @@ public class Item {
 
     public static Comparator<Item> ItemDDaysComparator = new Comparator<Item>() {
         @Override
-        public int compare(Item o2, Item o1) {
+        public int compare(Item o1, Item o2) {
             return o2.getDays() - o1.getDays();
         }
     };
