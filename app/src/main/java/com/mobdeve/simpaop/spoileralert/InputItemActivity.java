@@ -154,6 +154,18 @@ public class InputItemActivity extends AppCompatActivity {
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
                 dpg.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                if (activityFrom != 0){
+                    Cursor cursor = databaseHelper.getSpecificItem(rowID);
+                    if(cursor.moveToFirst()) {
+                        String expiry = cursor.getString(4);
+                        String [] date = expiry.split("/");
+                        int monthOfYear = Integer.parseInt(date[0])-1;
+                        int dayOfMonth = Integer.parseInt(date[1]);
+                        int year = Integer.parseInt(date[2]);
+
+                        dpg.updateDate(year, monthOfYear, dayOfMonth);
+                    }
+                }
                 dpg.show();
             }
         });
@@ -318,6 +330,24 @@ public class InputItemActivity extends AppCompatActivity {
             byte[] byteArray2 = cursor.getBlob(5);
             Bitmap bmp2 = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
             this.itemExpiryIv.setImageBitmap(bmp2);
+            String [] date = expiry.split("/");
+            int monthOfYear = Integer.parseInt(date[0])-1;
+            int dayOfMonth = Integer.parseInt(date[1]);
+            int year = Integer.parseInt(date[2]);
+
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            calendar.set(Calendar.HOUR_OF_DAY, 00);
+            calendar.set(Calendar.MINUTE, 00);
+            calendar.set(Calendar.SECOND, 00);
+            calendar2.set(Calendar.YEAR, year);
+            calendar2.set(Calendar.MONTH, monthOfYear);
+            calendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            calendar2.set(Calendar.HOUR_OF_DAY, 00);
+            calendar2.set(Calendar.MINUTE, 00);
+            calendar2.set(Calendar.SECOND, 00);
+            calendar2.add(calendar2.DATE, -3);
         }
     }
 
