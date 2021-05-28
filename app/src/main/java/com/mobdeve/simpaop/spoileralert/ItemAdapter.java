@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements Filterable {
 
@@ -93,6 +94,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         protected void publishResults(CharSequence constraint, FilterResults results) {
             itemArrayList.clear();
             itemArrayList.addAll((ArrayList) results.values);
+            Collections.sort(itemArrayList, Item.ItemADaysComparator);
             notifyDataSetChanged();
         }
     };
