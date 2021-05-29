@@ -79,6 +79,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
                     if(item.getItemName().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
+                    else if(item.getItemCategory().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
                 }
             }
 
